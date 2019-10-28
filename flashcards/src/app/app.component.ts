@@ -1,3 +1,4 @@
+import { IFlash } from './flash.model';
 import { Component } from '@angular/core';
 
 @Component({
@@ -7,4 +8,40 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'flashcards';
+
+  flashs: IFlash[] = [
+    {
+      question: 'Question 1',
+      answer: 'Answer 1',
+      show: false,
+      id: getRandomNumber()
+    },
+    {
+      question: 'Question 2',
+      answer: 'Answer 2',
+      show: false,
+      id: getRandomNumber()
+    },
+    {
+      question: 'Question 3',
+      answer: 'Answer 3',
+      show: false,
+      id: getRandomNumber()
+    },
+    {
+      question: 'Question 3',
+      answer: 'Answer 3',
+      show: false,
+      id: getRandomNumber()
+    }
+  ];
+
+  trackByFlashId(index, flash) {
+    console.log(flash);
+    return flash.id;
+  }
+}
+
+function getRandomNumber() {
+  return Math.floor(Math.random() * 1000);
 }
