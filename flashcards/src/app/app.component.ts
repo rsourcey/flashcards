@@ -9,6 +9,9 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'flashcards';
 
+  editing: boolean: f;
+  editingId: number;
+
   flashs: IFlash[] = [
     {
       question: 'Question 1',
@@ -39,6 +42,23 @@ export class AppComponent {
   trackByFlashId(index, flash) {
     console.log(flash);
     return flash.id;
+  }
+
+  handleToggleCard(id: number) {
+    const flash = this.flashs.find(f => f.id === id);
+    flash.show = !flash.show;
+  }
+
+  handleDelete(id: number) {
+    const flash = this.flashs.filter(f => f.id === id)[0];
+    const flashId = this.flashs.indexOf(flash);
+    this.flashs.splice(flashId, 1);
+  }
+
+  handleEdit(id: number){
+    this.editing = true;
+    this.editingId = id;
+    //TODO
   }
 }
 
