@@ -1,5 +1,6 @@
 import { IFlash } from './flash.model';
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms'
 
 @Component({
   selector: 'app-root',
@@ -7,10 +8,15 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  @ViewChild('flashForm', { static: true }) flashForm: NgForm;
   title = 'flashcards';
 
   editing = false;
   editingId: number;
+  flash = {
+    question: '',
+    answer: ''
+  }
 
   flashs: IFlash[] = [
     {
@@ -61,9 +67,27 @@ export class AppComponent {
     //TODO
   }
 
-  handleRememberedChange({ id, flag }){
+  handleRememberedChange({ id, flag }) {
     const flash = this.flashs.find(flash => flash.id === id);
     flash.remembered = flag;
+  }
+
+  handleSubmit(): void {
+  
+    this.handleClear();
+  }
+
+  handleClear() {
+    this.flash = {
+      question: '',
+      answer: ''
+    };
+    
+    this.flashForm.reset();
+  }
+
+  private generatedId(): number{
+    return getRandomNumber();
   }
 }
 
