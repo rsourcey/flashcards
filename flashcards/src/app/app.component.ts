@@ -1,3 +1,4 @@
+import { FlashService } from './flash/flash.service';
 import { IFlash } from './flash.model';
 import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms'
@@ -11,86 +12,63 @@ export class AppComponent {
   @ViewChild('flashForm', { static: true }) flashForm: NgForm;
   title = 'flashcards';
 
+  flashs;
+
   editing = false;
   editingId: number;
-  flash = {
-    question: '',
-    answer: ''
+  flash: IFlash;
+
+  constructor(
+    private flashService: FlashService
+  ) {
+    this.flashs = this.flashService.flashs;
   }
 
-  flashs: IFlash[] = [
-    {
-      question: 'Question 1',
-      answer: 'Answer 1',
-      show: false,
-      id: getRandomNumber()
-    },
-    {
-      question: 'Question 2',
-      answer: 'Answer 2',
-      show: false,
-      id: getRandomNumber()
-    },
-    {
-      question: 'Question 3',
-      answer: 'Answer 3',
-      show: false,
-      id: getRandomNumber()
-    },
-    {
-      question: 'Question 4',
-      answer: 'Answer 4',
-      show: false,
-      id: getRandomNumber()
-    }
-  ];
 
   trackByFlashId(index, flash) {
     return flash.id;
   }
 
   handleToggleCard(id: number) {
-    const flash = this.flashs.find(f => f.id === id);
-    flash.show = !flash.show;
+    this.flashService.toggleFlash(id);
   }
 
   handleDelete(id: number) {
-    console.log(id);
-    const flash = this.flashs.filter(f => f.id === id)[0];
-    const flashId = this.flashs.indexOf(flash);
-    this.flashs.splice(flashId, 1);
+  this.flashService.deleteFlash(id);
   }
 
   handleEdit(id: number) {
+    this.flashService.getFlash(id);
     this.editing = true;
     this.editingId = id;
-    //TODO
+  }
+
+  handleUpdate() {
+    this.flashService.updateFlash(this.editingId, this.flash);
+    this.handleCancel();
+  }
+
+  handleCancel() {
+    this.editing = false;
+    this.editingId = undefined;
+    this.handleClear();
   }
 
   handleRememberedChange({ id, flag }) {
-    const flash = this.flashs.find(flash => flash.id === id);
-    flash.remembered = flag;
+    this.flashService.rememberedChange(id, flag);
   }
 
   handleSubmit(): void {
-  
+    this.flashService.addFlash(this.flash);
     this.handleClear();
   }
 
   handleClear() {
-    this.flash = {
-      question: '',
-      answer: ''
-    };
-    
+    this.flash.question = '';
+    this.flash.answer = '';
     this.flashForm.reset();
   }
 
-  private generatedId(): number{
-    return getRandomNumber();
-  }
 }
 
-function getRandomNumber() {
-  return Math.floor(Math.random() * 1000);
-}
+
