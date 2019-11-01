@@ -9,7 +9,7 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'flashcards';
 
-  editing: boolean: f;
+  editing = false;
   editingId: number;
 
   flashs: IFlash[] = [
@@ -32,15 +32,14 @@ export class AppComponent {
       id: getRandomNumber()
     },
     {
-      question: 'Question 3',
-      answer: 'Answer 3',
+      question: 'Question 4',
+      answer: 'Answer 4',
       show: false,
       id: getRandomNumber()
     }
   ];
 
   trackByFlashId(index, flash) {
-    console.log(flash);
     return flash.id;
   }
 
@@ -50,15 +49,21 @@ export class AppComponent {
   }
 
   handleDelete(id: number) {
+    console.log(id);
     const flash = this.flashs.filter(f => f.id === id)[0];
     const flashId = this.flashs.indexOf(flash);
     this.flashs.splice(flashId, 1);
   }
 
-  handleEdit(id: number){
+  handleEdit(id: number) {
     this.editing = true;
     this.editingId = id;
     //TODO
+  }
+
+  handleRememberedChange({ id, flag }){
+    const flash = this.flashs.find(flash => flash.id === id);
+    flash.remembered = flag;
   }
 }
 
