@@ -3,8 +3,8 @@
   <div class="field">
     <label class="label" for="">Question</label>
     <div class="control">
-      <input required class="input" type="text" name="question"
-      [(ngModel)]="flash.question" #question="ngModel"
+      <input required class="input" type="text" [(ngModel)]="flash.question" name="question"
+       #question="ngModel"
       [ngClass]="{'is-danger': question.invalid && !question.pristine}"
       >
     </div>
@@ -12,10 +12,11 @@
   <div class="field">
     <label class="label" for="">Answer</label>
     <div class="control">
-      <input required class="input" type="text" name="answer"
-      [(ngModel)]="flash.answer" #answer="ngModel"
+      <input required class="input" type="text" [(ngModel)]="flash.answer" name="answer"
+       #answer="ngModel"
       [ngClass]="{'is-danger': answer.invalid && !answer.pristine}"
       >
+   
     </div>
   </div>
   <button *ngIf="editing; else submitBtn" class="button is-primary" type="submit"

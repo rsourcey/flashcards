@@ -51,6 +51,7 @@ export class FlashService {
 
     toggleFlash(id: number) {
         const index = this.flashs.findIndex(flash => flash.id === id);
+        // this.flashs[index].show = !this.flashs[index].show;
         this.flashs = [
             ...this.flashs.slice(0, index),
             {
@@ -59,6 +60,7 @@ export class FlashService {
             },
             ...this.flashs.slice(index + 1)
         ];
+        console.log(this.flashs);
         this.flashs$.next(this.flashs);
     }
 

@@ -1,29 +1,53 @@
 import { FlashService } from './flash/flash.service';
 import { IFlash } from './flash.model';
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms'
+import { Subscription, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+
+export class AppComponent implements OnInit, OnDestroy {
   @ViewChild('flashForm', { static: true }) flashForm: NgForm;
   title = 'flashcards';
 
-  flashs;
+  flashs: IFlash[];
 
   editing = false;
   editingId: number;
-  flash: IFlash;
+  flash: IFlash = {
+    question: '',
+    answer: '',
+    show: false,
+    id: 9,
+  };
+
+  flash$: Observable<IFlash[]>;
+
+  subscription: Subscription;
 
   constructor(
     private flashService: FlashService
   ) {
     this.flashs = this.flashService.flashs;
+
   }
 
+  ngOnInit() {
+    // this.subscription = this.flashService.flashs$.subscribe(f => {
+    //   this.flashs = f;
+    // });
+    this.flash$ = this.flashService.flashs$;
+  }
+
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 
   trackByFlashId(index, flash) {
     return flash.id;
@@ -34,7 +58,7 @@ export class AppComponent {
   }
 
   handleDelete(id: number) {
-  this.flashService.deleteFlash(id);
+    this.flashService.deleteFlash(id);
   }
 
   handleEdit(id: number) {

@@ -26,6 +26,7 @@ export class FlashComponent implements OnInit {
 
   toggleCard() {
     this.onToggleCard.emit(this.flash.id);
+    console.log('tst', this.flash);
   }
 
   deleteFlash() {
