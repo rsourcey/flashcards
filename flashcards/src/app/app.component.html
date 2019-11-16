@@ -40,7 +40,7 @@
   </ng-template>
   
 </form>
-<div class="flashs">
+<div class="flashs" *ngIf="flash$ | async as flashs">
   <app-flash *ngFor="let flash of flashs;trackBy:trackByFlashId" [flash]="flash"
   (onToggleCard)="handleToggleCard($event)"
   (onDelete)="handleDelete($event)"

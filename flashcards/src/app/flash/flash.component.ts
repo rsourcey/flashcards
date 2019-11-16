@@ -33,18 +33,18 @@ export class FlashComponent implements OnInit {
     this.onDelete.emit(this.flash.id);
   }
 
-  editFlash(){
+  editFlash() {
     this.onEdit.emit(this.flash.id);
   }
 
-  markCorrect(){
+  markCorrect() {
     this.onRememberedChange.emit({
       id: this.flash.id,
       flag: 'correct'
     });
   }
 
-  markIncorrect(){
+  markIncorrect() {
     this.onRememberedChange.emit({
       id: this.flash.id,
       flag: 'incorrect'

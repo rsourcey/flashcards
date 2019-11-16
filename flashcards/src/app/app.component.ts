@@ -14,10 +14,10 @@ export class AppComponent implements OnInit, OnDestroy {
   @ViewChild('flashForm', { static: true }) flashForm: NgForm;
   title = 'flashcards';
 
-  flashs: IFlash[];
 
   editing = false;
   editingId: number;
+
   flash: IFlash = {
     question: '',
     answer: '',
@@ -32,7 +32,7 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(
     private flashService: FlashService
   ) {
-    this.flashs = this.flashService.flashs;
+    // this.flashs = this.flashService.flashs;
 
   }
 
